@@ -1,1 +1,29 @@
-Hello puyo
+{% extends "GamzPuyoBundle::layout.html.twig" %}
+
+{% block assets %}
+    {% stylesheets filter="compass" output="media/css/game/index.css"
+        "@GamzPuyoBundle/Resources/assets/styles/global.sass"
+        "@GamzPuyoBundle/Resources/assets/styles/game.sass"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="/media/js/raphael.js"></script>
+
+    {% javascripts filter="coffee" output="media/js/puyo.js"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/core.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/game.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/engine.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/stage.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/provider.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/test.coffee"
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}
+
+{% block content %}
+    <div id="game"></div>
+{% endblock %}
