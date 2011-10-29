@@ -15,7 +15,7 @@ class puyo.game.Game
         setTimeout (()=> @next()), delay
     next:                       -> if @stage.available() then @strike() else @loose()
     strike:                     -> next = @provider.next() ; if next then (@stage.start next ; @score.strike()) else @win()
-    loose:                      ->
+    loose:                      -> @congrats.loose()
     win:                        -> @congrats.win()
     clear:                      -> @congrats.clear()
 
@@ -24,6 +24,7 @@ class puyo.game.Congrats
     ready:                      -> @start 'lets', 'go!'
     clear:                      -> @start 'stage', 'clear!'
     win:                        -> @start 'you', 'win!'
+    loose:                      -> @start 'you', 'suck!'
     start: (m1, m2)             ->
         t1 = @build(m1, -300, 0) ; t2 = @build(m2, 300, 50) ; @appear t1 ; @appear t2
         setTimeout (()=> @disappear t1 ; @disappear t2), 1000
