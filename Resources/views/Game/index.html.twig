@@ -16,16 +16,16 @@
     <script type="text/javascript" src="/media/js/raphael.js"></script>
 
     {% javascripts filter="coffee" output="media/js/puyo.js"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/core.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/game.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/engine.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/stage.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/provider.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/score.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/abstract.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/backs.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/bubble.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/test.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/game.core.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/game.main.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/game.score.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/stage.engine.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/stage.board.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/stage.provider.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/sprite.abstract.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/sprite.backs.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/sprite.bubble.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/test.coffee"
     %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
@@ -44,7 +44,7 @@
                 <strong>0</strong>
             </p>
         </div>
-        <div id="congrats"></div>
+        <div id="messages"></div>
     </div>
 
     <ul id="help">

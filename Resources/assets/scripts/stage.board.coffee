@@ -1,19 +1,19 @@
-class puyo.stage.Stage
+class puyo.stage.Board
     # conf: width, height, xscale, yxcale, xoffset, yoffset, xstart, gtime
     constructor: (@events, @conf) ->
         @events.bind @
-        @matrix     = new puyo.engine.Matrix(@conf.columns, @conf.rows)
+        @matrix     = new puyo.stage.Matrix(@conf.columns, @conf.rows)
         @controller = new puyo.stage.Controller(@events)
         if @conf.gtime? then @gravity = new puyo.stage.Gravity(@events, @conf.gtime)
-        @keyboard   = new puyo.core.Keyboard(@events, @conf.keys)
+        @keyboard   = new puyo.game.Keyboard(@events, @conf.keys)
         @resolver   = new puyo.stage.Resolver(@events, @matrix)
     draw: (paper, x, y)     ->
         @conf.xoffset = x ; @conf.yoffset = y
-        @sprite = new puyo.sprite.Stage(paper, @conf)
+        @sprite = new puyo.sprite.Board(paper, @conf)
         @sprite.draw(x, y)
     start: (group) ->
         @controller.bind @bubble(1, group.master), @bubble(0, group.slave)
-        @controller.orient = puyo.engine.ControlGroup.NORTH
+        @controller.orient = puyo.stage.ControlGroup.NORTH
         if @conf.gtime? then @gravity.bind @controller
         @keyboard.start()
     resolve:                ->
@@ -26,7 +26,7 @@ class puyo.stage.Stage
         if cell.color? then new puyo.stage.ColoredBubble(@matrix, @conf.xstart, y, cell.sprite, @conf, cell.color)
         else new puyo.stage.Bubble(@matrix, @conf.xstart, y, cell.sprite, @conf)
 
-class puyo.stage.Bubble extends puyo.engine.Cell
+class puyo.stage.Bubble extends puyo.stage.Cell
     @BUBBLEMOVE: 75  # bubble move time
     # conf: xscale, yxcale, xoffset, yoffset
     constructor: (matrix, x, y, @sprite, @conf) ->
@@ -45,19 +45,19 @@ class puyo.stage.ColoredBubble extends puyo.stage.Bubble
 
 class puyo.stage.Gravity
     constructor: (events, @time) ->
-        @pulsar = new puyo.core.Pulsar((()=> @down()), @time)
-        events.listen puyo.core.Events.KEYDOWN, ()=> @pulsar.reset()
+        @pulsar = new puyo.game.Pulsar((()=> @down()), @time)
+        events.listen puyo.game.Events.KEYDOWN, ()=> @pulsar.reset()
     bind: (@controller)     -> @pulsar.start()
     unbind:                 -> @controller = null ; @pulsar.stop()
     down:                   -> @controller?.keydown()
 
-class puyo.stage.Controller extends puyo.engine.ControlGroup
+class puyo.stage.Controller extends puyo.stage.ControlGroup
     constructor: (@events)  -> super() ; @events.bind @
-    keyleft:                -> if not @move 'left'  then @events.dispatch puyo.core.Events.BLOCKED
-    keyright:               -> if not @move 'right' then @events.dispatch puyo.core.Events.BLOCKED
-    keyturn:                -> if not @move 'turn'  then @events.dispatch puyo.core.Events.BLOCKED
-    keydown:                -> if @move 'down' then @events.dispatch puyo.core.Events.FORWARD else @events.dispatch puyo.core.Events.RESOLVE
-    keydrop:                -> @events.dispatch puyo.core.Events.DROP ; @events.dispatch puyo.core.Events.RESOLVE
+    keyleft:                -> if not @move 'left'  then @events.dispatch puyo.game.Events.BLOCKED
+    keyright:               -> if not @move 'right' then @events.dispatch puyo.game.Events.BLOCKED
+    keyturn:                -> if not @move 'turn'  then @events.dispatch puyo.game.Events.BLOCKED
+    keydown:                -> if @move 'down' then @events.dispatch puyo.game.Events.FORWARD else @events.dispatch puyo.game.Events.RESOLVE
+    keydrop:                -> @events.dispatch puyo.game.Events.DROP ; @events.dispatch puyo.game.Events.RESOLVE
 
 class puyo.stage.Resolver
     @AFTERFALLED:   150 # sleep time after falled
@@ -71,10 +71,10 @@ class puyo.stage.Resolver
     matches: (cells)        ->
         groups = new puyo.stage.MatchesResolver(cells).resolve()
         if groups?
-            @events.dispatch puyo.core.Events.MATCHED, groups
+            @events.dispatch puyo.game.Events.MATCHED, groups
             setTimeout (()=>@gravity()), puyo.stage.Resolver.AFTERMATCH
         else @resolved()
-    resolved:               -> @events.dispatch puyo.core.Events.RESOLVED, @matrix
+    resolved:               -> @events.dispatch puyo.game.Events.RESOLVED, @matrix
 
 class puyo.stage.GravityResolver
     constructor: (@matrix)  -> @cells = [] ; @delta = 0
@@ -84,7 +84,7 @@ class puyo.stage.GravityResolver
         if group.delta > @delta then @delta = group.delta
     resolve:                ->
         for id, cell of @matrix.cells
-            if @accept cell then @add new puyo.engine.FallingGroup(cell)
+            if @accept cell then @add new puyo.stage.FallingGroup(cell)
 
         [@cells, @delta]
 
@@ -99,7 +99,7 @@ class puyo.stage.MatchesResolver
         false
     resolve:                ->
         for cell in @cells
-            @add new puyo.engine.MatchingGroup(cell)
+            @add new puyo.stage.MatchingGroup(cell)
         if @groups.length > 0 then @groups else null
 
 

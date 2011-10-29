@@ -12,14 +12,14 @@ class puyo.sprite.Provider extends puyo.sprite.Sprite
         @drawings.grad  = new puyo.sprite.Background(paper, @conf.xscale, @conf.yscale * 2, '270-'+@conf.colors.grad1+'-'+@conf.colors.grad2, 5, 0)
         super(x, y)
 
-class puyo.sprite.StageCell extends puyo.sprite.Drawing
+class puyo.sprite.BoardCell extends puyo.sprite.Drawing
     constructor: (paper, width, height, @dx, @dy, @color) -> super paper, width, height
     draw: (x, y)            -> @shape = (@paper.rect x+@dx*@width, y+@dy*@height, @width, @height).attr { fill: @color, stroke: 'none' }
 
-class puyo.sprite.StageCursor extends puyo.sprite.Drawing
+class puyo.sprite.BoardCursor extends puyo.sprite.Drawing
     draw: (x, y)            -> @shape = (@paper.rect @x-@width/2, @y-@height/2, @width, @height).attr { fill: 'rgba(255,255,255,0.2)', stroke: 'none' }
 
-class puyo.sprite.Stage extends puyo.sprite.Sprite
+class puyo.sprite.Board extends puyo.sprite.Sprite
     constructor: (paper, @conf) -> super paper
     focus:                  -> @drawings.outer.attr { fill: @conf.colors.focus }
     blur:                   -> @drawings.outer.attr { fill: @conf.colors.outer }
@@ -31,7 +31,7 @@ class puyo.sprite.Stage extends puyo.sprite.Sprite
             for dy in [0...@conf.rows]
                 index = dx + dy * @conf.columns
                 color = if index%2 is 0 then @conf.colors.even else @conf.colors.odd
-                @drawings[index] = new puyo.sprite.StageCell(@paper, @conf.xscale, @conf.yscale, dx, dy, color)
+                @drawings[index] = new puyo.sprite.BoardCell(@paper, @conf.xscale, @conf.yscale, dx, dy, color)
         super x, y
         @drawings.inner.back()
         @drawings.outer.back()

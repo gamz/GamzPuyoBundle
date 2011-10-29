@@ -1,11 +1,11 @@
-class puyo.score.Score
+class puyo.game.Score
     constructor: (@container, @events, @conf) ->
-        @switcher = new puyo.score.Switcher @container
-        @combo    = new puyo.score.Counter @container.find '.combo strong'
-        @points   = new puyo.score.Counter @container.find '.points strong'
-        @events.listen puyo.core.Events.MATCHED,  (groups)=> @matched groups
-        @events.listen puyo.core.Events.RESOLVED, (matrix)=> @resolved matrix
-        @events.listen puyo.core.Events.RESOLVE,  ()=> setTimeout (()=> @combo.reset()), 500
+        @switcher = new puyo.game.ScoreSwitcher @container
+        @combo    = new puyo.game.ScoreCounter @container.find '.combo strong'
+        @points   = new puyo.game.ScoreCounter @container.find '.points strong'
+        @events.listen puyo.game.Events.MATCHED,  (groups)=> @matched groups
+        @events.listen puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
+        @events.listen puyo.game.Events.RESOLVE,  ()=> setTimeout (()=> @combo.reset()), 500
     reset:                  -> @points.reset() ; @switcher.reset()
     strike:                 -> @points.add @conf.strike ; setTimeout (() => @switcher.points()), 500
     bubbles: (groups)       -> bubbles = 0 ; bubbles += group.size() for group in groups ; bubbles
@@ -13,14 +13,14 @@ class puyo.score.Score
     remove: (bubbles)       -> @points.add Math.round bubbles * @conf.bubble * (1 + (@combo.get() - 1) * @conf.combo)
     resolved: (matrix)      -> (if matrix.length() is 0 then @points.add @combo.get() * @conf.clear)
 
-class puyo.score.Counter
+class puyo.game.ScoreCounter
     constructor: (@container) ->
     reset:                  -> @set 0
     get:                    -> parseInt @container.text()
     set: (num)              -> @container.text num ; @container.css('opacity', 1).animate { opacity: 0.5 }, 250
     add: (num)              -> @set @get() + num
 
-class puyo.score.Switcher
+class puyo.game.ScoreSwitcher
     constructor: (container) ->
         @current = null
         @containers = { points: container.find('.points'), combo: container.find('.combo') }

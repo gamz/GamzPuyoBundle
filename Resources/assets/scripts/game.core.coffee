@@ -1,13 +1,6 @@
-@puyo =
-    core:     {} # core classes package
-    engine:   {} # matrix / cell / group package
-    stage:    {} # game stage package
-    sprite:   {} # svg drawer package
-    provider: {} # bubbles provider package
-    score:    {} # score / combo / attacks package
-    game:     {} # main controller package
+@puyo = { game: {}, stage: {}, sprite: {} }
 
-class puyo.core.Reflection
+class puyo.game.Reflection
     constructor:            ->
     values: (obj)           -> vals = [] ; vals.push obj[name] for name, val of obj ; vals
     methods: (obj)          ->
@@ -16,7 +9,7 @@ class puyo.core.Reflection
             if typeof meth is 'function' then meths[name] = meth
         meths
 
-class puyo.core.Events
+class puyo.game.Events
     @KEYTURN:  'keyturn'  # on press keyboard turn (cw) key
     @KEYDOWN:  'keydown'  # on press keyboard down key
     @KEYLEFT:  'keyleft'  # on press keyboard left key
@@ -29,16 +22,16 @@ class puyo.core.Events
     @MATCHED:  'matched'  # on stage resolved matching bubbles (explosions)
     @RESOLVED: 'resolved' # on stage resolved strike
     @COMPLETE: 'complete' # on completed stage and still alive!
-    constructor:            -> @listeners = {} ; @reflection = new puyo.core.Reflection
+    constructor:            -> @listeners = {} ; @reflection = new puyo.game.Reflection
     dispatch: (event, args...) -> if @listeners[event]? then listener[0].apply(listener[1], args) for listener in @listeners[event]
     listen: (event, func, subject = @) ->
         if not @listeners[event]? then @listeners[event] = []
         @listeners[event].push [func, subject]
     bind: (obj)             ->
         for name, meth of @reflection.methods obj
-            if typeof meth is 'function' and name in @reflection.values puyo.core.Events then @listen name, meth, obj
+            if typeof meth is 'function' and name in @reflection.values puyo.game.Events then @listen name, meth, obj
 
-class puyo.core.Pulsar
+class puyo.game.Pulsar
     constructor: (@func, @time) ->
     start:                  -> if @started then @unschedule() else @started = true ; @schedule()
     schedule:               -> @timer = setTimeout (()=> @call()), @time
@@ -47,11 +40,11 @@ class puyo.core.Pulsar
     stop:                   -> @unschedule() ; @started = false
     reset:                  -> @stop() ; @start()
 
-class puyo.core.Keyboard
+class puyo.game.Keyboard
     @KEYSLEEP:  100 # keyboard sleep after key press
     @KEYREPEAT: 150 # keyboard key repeat delay if down
     constructor: (@events, @conf) ->
-        @pulsar = new puyo.core.Pulsar((()=> @send()), puyo.core.Keyboard.KEYREPEAT)
+        @pulsar = new puyo.game.Pulsar((()=> @send()), puyo.game.Keyboard.KEYREPEAT)
         $(document).keydown (event)=> if @listen and @conf[event.keyCode]? then @press   @conf[event.keyCode] ; event.preventDefault()
         $(document).keyup   (event)=> if @listen and @conf[event.keyCode]? then @release @conf[event.keyCode] ; event.preventDefault()
     start:                  -> @listen = true
@@ -59,4 +52,4 @@ class puyo.core.Keyboard
     press: (@event)         -> @pulsar.start() ; @send()
     send:                   -> if @listen and @event and not @sleeping then (@events.dispatch @event ; @sleep())
     release: (event)        -> if event is @event then @pulsar.stop()
-    sleep:                  -> @sleeping = true ; setTimeout (()=> @sleeping = false), puyo.core.Keyboard.KEYSLEEP
+    sleep:                  -> @sleeping = true ; setTimeout (()=> @sleeping = false), puyo.game.Keyboard.KEYSLEEP

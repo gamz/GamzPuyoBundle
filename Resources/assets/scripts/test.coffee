@@ -9,11 +9,11 @@ $ ->
             xstart:  6
             gtime:   3000
             keys:
-                37: puyo.core.Events.KEYLEFT
-                38: puyo.core.Events.KEYTURN
-                39: puyo.core.Events.KEYRIGHT
-                40: puyo.core.Events.KEYDOWN
-                13: puyo.core.Events.KEYDROP
+                37: puyo.game.Events.KEYLEFT
+                38: puyo.game.Events.KEYTURN
+                39: puyo.game.Events.KEYRIGHT
+                40: puyo.game.Events.KEYDOWN
+                13: puyo.game.Events.KEYDROP
             colors:
                 outer: '#666'
                 focus: '#999'
@@ -43,7 +43,7 @@ $ ->
             clear:  100 # points on stage clear (x combos)
             strike: 2   # points on strike
 
-    level = [
+    scheme = [
         [0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0],
         [0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0],
         [0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0],
@@ -114,4 +114,4 @@ $ ->
     game  = new puyo.game.Game $('#game'), conf
 
     game.draw paper, 4, 8
-    game.start level
+    game.start new puyo.game.Scheme scheme
