@@ -1,6 +1,10 @@
 {% extends "GamzPuyoBundle::layout.html.twig" %}
 
 {% block assets %}
+    {{ parent() }}
+
+    <link href="http://fonts.googleapis.com/css?family=Syncopate:700" rel="stylesheet" type="text/css">
+
     {% stylesheets filter="compass" output="media/css/game/index.css"
         "@GamzPuyoBundle/Resources/assets/styles/global.sass"
         "@GamzPuyoBundle/Resources/assets/styles/game.sass"
@@ -17,7 +21,10 @@
         "@GamzPuyoBundle/Resources/assets/scripts/puyo/engine.coffee"
         "@GamzPuyoBundle/Resources/assets/scripts/puyo/stage.coffee"
         "@GamzPuyoBundle/Resources/assets/scripts/puyo/provider.coffee"
-        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/score.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/abstract.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/backs.coffee"
+        "@GamzPuyoBundle/Resources/assets/scripts/puyo/sprite/bubble.coffee"
         "@GamzPuyoBundle/Resources/assets/scripts/puyo/test.coffee"
     %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
@@ -25,5 +32,18 @@
 {% endblock %}
 
 {% block content %}
-    <div id="game"></div>
+    <div id="game">
+        <div id="paper"></div>
+        <div id="score">
+            <p class="points">
+                <span>Points:</span>
+                <strong>0</strong>
+            </p>
+            <p class="combo">
+                <span>Combo:</span>
+                <strong>0</strong>
+            </p>
+        </div>
+        <div id="congrats"></div>
+    </div>
 {% endblock %}

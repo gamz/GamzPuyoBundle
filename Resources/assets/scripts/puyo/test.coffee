@@ -23,7 +23,7 @@ $ ->
         provider:
             xscale:  28
             yscale:  28
-            cache:   10
+            cache:   5
             column:  6
             colors:
                 outer: '#666'
@@ -35,6 +35,11 @@ $ ->
                 width:  24
                 height: 24
                 hues:   [0, 0.1, 0.6, 0.75]
+        score:
+            bubble: 5   # points by bubble removed
+            combo:  0.5 # points coef per combo (if > 1)
+            clear:  100 # points on stage clear (x combos)
+            strike: 2   # points on strike
 
     level = [
         [0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0],
@@ -47,9 +52,8 @@ $ ->
         [0, 1], [1, 0], [1, 2], [2, 1], [0, 2], [2, 0]
     ]
 
-    paper = Raphael('game', 1000, 600)
-    game  = new puyo.game.Game conf
+    paper = Raphael('paper', 372, 516)
+    game  = new puyo.game.Game $('#game'), conf
 
-    game.draw paper, 50, 50
+    game.draw paper, 4, 8
     game.start level
-    game.strike()

@@ -4,6 +4,7 @@
     stage:    {} # game stage package
     sprite:   {} # svg drawer package
     provider: {} # bubbles provider package
+    score:    {} # score / combo / attacks package
     game:     {} # main controller package
 
 class puyo.core.Reflection
@@ -25,10 +26,8 @@ class puyo.core.Events
     @RESOLVE:  'resolve'  # on control group stage starts resolve
     @FORWARD:  'forward'  # on control group goes forward
     @DROP:     'drop'     # on control group drops bubbles
-    @FALLED:   'falled'   # on stage resolved falling bubbles
     @MATCHED:  'matched'  # on stage resolved matching bubbles (explosions)
     @RESOLVED: 'resolved' # on stage resolved strike
-    @STRIKE:   'strike'   # on provider send group to stage
     @COMPLETE: 'complete' # on completed stage and still alive!
     constructor:            -> @listeners = {} ; @reflection = new puyo.core.Reflection
     dispatch: (event, args...) -> if @listeners[event]? then listener[0].apply(listener[1], args) for listener in @listeners[event]

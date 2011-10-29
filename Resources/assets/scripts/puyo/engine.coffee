@@ -1,7 +1,7 @@
 class puyo.engine.Matrix
     constructor: (@width, @height) -> @empty()
     empty:                  -> @cells = {}
-    length:                 -> @cells.length
+    length:                 -> length = 0 ; length += 1 for cell of @cells ; length
     id: (x, y)              -> x+'-'+y
     available: (x, y)       -> not @cells[@id x, y]? and 0 <= x < @width and 0 <= y < @height
     get: (x, y)             -> @cells[@id x, y]

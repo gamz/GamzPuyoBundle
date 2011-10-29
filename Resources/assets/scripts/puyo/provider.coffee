@@ -34,20 +34,19 @@ class puyo.provider.Builder
         { color: colors[1], sprite: new puyo.sprite.Bubble @paper, @conf.bubble, colors[1] } , @conf )
 
 class puyo.provider.Manipulator
-    @SPACE:    20  # space between groups
     constructor: (@conf)    ->
     init: (@cache)          -> (@cache[i].draw i ; @cache[i].appear()) for i in [0...@cache.length]
     spawn: (group)          -> if @cache? then group.draw @cache.length ; group.appear()
-    next: (group)           -> group.move @conf.xscale + puyo.provider.Manipulator.SPACE
+    next: (group)           -> group.move @conf.xscale * 1.5
 
 class puyo.provider.Group
     @MOVETIME: 100
     constructor: (@master, @slave, @conf) ->
     draw: (index)           -> @master.sprite.draw @x(index), @conf.ymaster ; @slave.sprite.draw @x(index), @conf.yslave
     appear:                 -> @master.sprite.appear puyo.provider.Group.MOVETIME ; @slave.sprite.appear()
-    x: (index)              -> @conf.xstart + index * (@conf.xscale + puyo.provider.Manipulator.SPACE)
+    x: (index)              -> @conf.xstart + index * (@conf.xscale * 1.5)
     move:                   ->
-        dx = 0 - @conf.xscale - puyo.provider.Manipulator.SPACE
+        dx = 0 - @conf.xscale * 1.5
         @master.sprite.move dx, 0, puyo.provider.Group.MOVETIME
         @slave.sprite.move  dx, 0, puyo.provider.Group.MOVETIME
 

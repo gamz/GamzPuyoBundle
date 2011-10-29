@@ -1,5 +1,19 @@
 {% extends "::layout.html.twig" %}
 
+{% block assets %}
+    <link href="http://fonts.googleapis.com/css?family=Marvel:700" rel="stylesheet" type="text/css">
+{% endblock %}
+
 {% block header %}
-    <h1>Puyo</h1>
+{% endblock %}
+
+{% block footer %}
+    <p>
+        Powered by
+        <a href="http://symfony.com">Symfony2</a>,
+        <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>,
+        <a href="http://raphaeljs.com">Raphaël</a>,
+        <a href="http://compass-style.org/">Compass</a> &
+        <a href="http://jquery.com/">jQuery</a>
+    </p>
 {% endblock %}

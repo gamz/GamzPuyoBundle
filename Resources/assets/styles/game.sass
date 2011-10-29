@@ -1,4 +1,65 @@
+@import "compass/css3"
+
 #game
-  width: 960px
-  height: 600px
+  width: 372px
   margin: 0 auto
+  position: relative
+
+#congrats
+  position: absolute
+  top: 238px
+  left: 0
+  width: 372px
+  height: 100px
+  font-family: Syncopate, sans-serif
+
+  p
+    position: absolute
+    top: 0
+    width: 372px
+    text-align: center
+    font-weight: bold
+    font-size: 48px
+    line-height: 50px
+    color: white
+    @include single-text-shadow(black, 0, 0, 5px)
+
+#score
+  position: absolute
+  top: 0
+  left: 0
+  width: 164px
+  height: 60px
+  line-height: 60px
+  text-align: center
+  overflow: hidden
+  color: white
+
+  p
+    position: absolute
+    top: -60px
+    left: 0
+    width: 164px
+
+  .points
+    font-size: 21px
+    letter-spacing: 1px
+
+    strong
+      @include opacity(0.5)
+
+    span
+      @include opacity(0.25)
+
+  .combo
+    font-size: 21px
+    letter-spacing: 1px
+
+    strong
+      font-size: 36px
+      @include opacity(0.5)
+      @include single-text-shadow(black, 0, 0, 5px)
+      font-family: Syncopate, sans-serif
+
+    span
+      @include opacity(0.25)

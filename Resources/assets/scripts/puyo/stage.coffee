@@ -7,7 +7,7 @@ class puyo.stage.Stage
         if @conf.gtime? then @gravity = new puyo.stage.Gravity(@events, @conf.gtime)
         @keyboard   = new puyo.core.Keyboard(@events, @conf.keys)
         @resolver   = new puyo.stage.Resolver(@events, @matrix)
-    draw: (paper, x, y)              ->
+    draw: (paper, x, y)     ->
         @conf.xoffset = x ; @conf.yoffset = y
         @sprite = new puyo.sprite.Stage(paper, @conf)
         @sprite.draw(x, y)
@@ -21,7 +21,8 @@ class puyo.stage.Stage
         @controller.unbind()
         @keyboard.stop()
         @resolver.resolve()
-    bubble: (y, cell) ->
+    available:              -> not @matrix.get(@conf.xstart, 0)? and not @matrix.get(@conf.xstart, 1)?
+    bubble: (y, cell)       ->
         if cell.color? then new puyo.stage.ColoredBubble(@matrix, @conf.xstart, y, cell.sprite, @conf, cell.color)
         else new puyo.stage.Bubble(@matrix, @conf.xstart, y, cell.sprite, @conf)
 
@@ -59,21 +60,21 @@ class puyo.stage.Controller extends puyo.engine.ControlGroup
     keydrop:                -> @events.dispatch puyo.core.Events.DROP ; @events.dispatch puyo.core.Events.RESOLVE
 
 class puyo.stage.Resolver
-    @AFTERFALLED:   250 # sleep time after falled
-    @AFTERMATCH:    250 # sleep time after matching
-    @AFTERRESOLVED: 250 # sleep time after resolved
+    @AFTERFALLED:   150 # sleep time after falled
+    @AFTERMATCH:    200 # sleep time after matching
     constructor: (@events, @matrix) ->
-        @events.listen puyo.core.Events.FALLED,  (cells)=> @matches(cells)
-        @events.listen puyo.core.Events.MATCHED, (groups)=> @gravity()
     resolve:                -> @gravity()
     gravity:                ->
         [cells, delta] = new puyo.stage.GravityResolver(@matrix).resolve()
-        if delta? then setTimeout (()=> @events.dispatch puyo.core.Events.FALLED, cells), delta * puyo.stage.Bubble.BUBBLEMOVE + puyo.stage.Resolver.AFTERFALLED
-        else setTimeout (()=> @events.dispatch puyo.core.Events.RESOLVED), puyo.stage.Resolver.AFTERRESOLVED
+        if delta? then setTimeout (()=> @matches(cells)), delta * puyo.stage.Bubble.BUBBLEMOVE + puyo.stage.Resolver.AFTERFALLED
+        else @resolved()
     matches: (cells)        ->
         groups = new puyo.stage.MatchesResolver(cells).resolve()
-        if groups? then setTimeout (()=> @events.dispatch puyo.core.Events.MATCHED, groups), puyo.stage.Resolver.AFTERMATCH
-        else setTimeout (()=> @events.dispatch puyo.core.Events.RESOLVED), puyo.stage.Resolver.AFTERRESOLVED
+        if groups?
+            @events.dispatch puyo.core.Events.MATCHED, groups
+            setTimeout (()=>@gravity()), puyo.stage.Resolver.AFTERMATCH
+        else @resolved()
+    resolved:               -> @events.dispatch puyo.core.Events.RESOLVED, @matrix
 
 class puyo.stage.GravityResolver
     constructor: (@matrix)  -> @cells = [] ; @delta = 0
