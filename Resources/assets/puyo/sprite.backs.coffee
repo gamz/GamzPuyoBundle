@@ -7,10 +7,12 @@ class puyo.sprite.Provider extends puyo.sprite.Sprite
     focus:                      -> @drawings.outer.attr { fill: @conf.colors.focus }
     blur:                       -> @drawings.outer.attr { fill: @conf.colors.outer }
     draw: (paper, x, y)         ->
-        @drawings.outer = new puyo.sprite.Background(paper, @conf.xscale, @conf.yscale * 2, @conf.colors.outer, 8, 4)
-        @drawings.inner = new puyo.sprite.Background(paper, @conf.xscale, @conf.yscale * 2, @conf.colors.inner, 6, 2)
-        @drawings.grad  = new puyo.sprite.Background(paper, @conf.xscale, @conf.yscale * 2, '270-'+@conf.colors.grad1+'-'+@conf.colors.grad2, 5, 0)
+        @drawings.shadow = new puyo.sprite.Background(paper, @conf.size.cellWidth, @conf.size.cellHeight * 2, @conf.colors.shadow, 13, 9)
+        @drawings.outer  = new puyo.sprite.Background(paper, @conf.size.cellWidth, @conf.size.cellHeight * 2, @conf.colors.outer, 8, 4)
+        @drawings.inner  = new puyo.sprite.Background(paper, @conf.size.cellWidth, @conf.size.cellHeight * 2, @conf.colors.inner, 6, 2)
+        @drawings.grad   = new puyo.sprite.Background(paper, @conf.size.cellWidth, @conf.size.cellHeight * 2, '270-'+@conf.colors.grad1+'-'+@conf.colors.grad2, 5, 0)
         super(x, y)
+        @drawings.shadow.back()
 
 class puyo.sprite.BoardCell extends puyo.sprite.Drawing
     constructor: (paper, width, height, @dx, @dy, @color) -> super paper, width, height
@@ -24,14 +26,16 @@ class puyo.sprite.Board extends puyo.sprite.Sprite
     focus:                  -> @drawings.outer.attr { fill: @conf.colors.focus }
     blur:                   -> @drawings.outer.attr { fill: @conf.colors.outer }
     draw: (x, y)            ->
-        width = @conf.columns * @conf.xscale ; height = @conf.rows * @conf.yscale
-        @drawings.outer = new puyo.sprite.Background(@paper, width, height, @conf.colors.outer, 4, 4)
-        @drawings.inner = new puyo.sprite.Background(@paper, width, height, @conf.colors.inner, 2, 2)
-        for dx in [0...@conf.columns]
-            for dy in [0...@conf.rows]
-                index = dx + dy * @conf.columns
+        width = @conf.size.columns * @conf.size.cellWidth ; height = @conf.size.rows * @conf.size.cellHeight
+        @drawings.shadow = new puyo.sprite.Background(@paper, width, height, @conf.colors.shadow, 9, 9)
+        @drawings.outer  = new puyo.sprite.Background(@paper, width, height, @conf.colors.outer, 4, 4)
+        @drawings.inner  = new puyo.sprite.Background(@paper, width, height, @conf.colors.inner, 2, 2)
+        for dx in [0...@conf.size.columns]
+            for dy in [0...@conf.size.rows]
+                index = dx + dy * @conf.size.columns
                 color = if index%2 is 0 then @conf.colors.even else @conf.colors.odd
-                @drawings[index] = new puyo.sprite.BoardCell(@paper, @conf.xscale, @conf.yscale, dx, dy, color)
+                @drawings[index] = new puyo.sprite.BoardCell(@paper, @conf.size.cellWidth, @conf.size.cellHeight, dx, dy, color)
         super x, y
         @drawings.inner.back()
         @drawings.outer.back()
+        @drawings.shadow.back()

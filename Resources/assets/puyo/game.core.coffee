@@ -10,6 +10,7 @@ class puyo.game.Reflection
         meths
 
 class puyo.game.Events
+    @SETUP:    'setup'    # on config changed
     @KEYTURN:  'keyturn'  # on press keyboard turn (cw) key
     @KEYDOWN:  'keydown'  # on press keyboard down key
     @KEYLEFT:  'keyleft'  # on press keyboard left key
@@ -45,8 +46,8 @@ class puyo.game.Keyboard
     @KEYREPEAT: 150 # keyboard key repeat delay if down
     constructor: (@events, @conf) ->
         @pulsar = new puyo.game.Pulsar((()=> @send()), puyo.game.Keyboard.KEYREPEAT)
-        $(document).keydown (event)=> if @listen and @conf[event.keyCode]? then @press   @conf[event.keyCode] ; event.preventDefault()
-        $(document).keyup   (event)=> if @listen and @conf[event.keyCode]? then @release @conf[event.keyCode] ; event.preventDefault()
+        $(document).keydown (event)=> if @listen and @conf.keys[event.keyCode]? then @press   @conf.keys[event.keyCode] ; event.preventDefault()
+        $(document).keyup   (event)=> if @listen and @conf.keys[event.keyCode]? then @release @conf.keys[event.keyCode] ; event.preventDefault()
     start:                  -> @listen = true
     stop:                   -> @listen = false ; @pulsar.stop()
     press: (@event)         -> @pulsar.start() ; @send()

@@ -1,52 +1,49 @@
 class puyo.stage.Board
-    # conf: width, height, xscale, yxcale, xoffset, yoffset, xstart, gtime
     constructor: (@events, @conf) ->
         @events.bind @
-        @matrix     = new puyo.stage.Matrix(@conf.columns, @conf.rows)
+        @matrix     = new puyo.stage.Matrix(@conf.size.columns, @conf.size.rows)
         @controller = new puyo.stage.Controller(@events)
-        if @conf.gtime? then @gravity = new puyo.stage.Gravity(@events, @conf.gtime)
-        @keyboard   = new puyo.game.Keyboard(@events, @conf.keys)
+        if @conf.level.gtime? then @gravity = new puyo.stage.Gravity(@events, @conf)
+        @keyboard   = new puyo.game.Keyboard(@events, @conf)
         @resolver   = new puyo.stage.Resolver(@events, @matrix)
     draw: (paper, x, y)     ->
-        @conf.xoffset = x ; @conf.yoffset = y
         @sprite = new puyo.sprite.Board(paper, @conf)
         @sprite.draw(x, y)
     start: (group) ->
         @controller.bind @bubble(1, group.master), @bubble(0, group.slave)
         @controller.orient = puyo.stage.ControlGroup.NORTH
-        if @conf.gtime? then @gravity.bind @controller
+        if @conf.level.gtime? then @gravity.bind @controller
         @keyboard.start()
     resolve:                ->
-        if @conf.gtime? then @gravity.unbind()
+        if @conf.level.gtime? then @gravity.unbind()
         @controller.unbind()
         @keyboard.stop()
         @resolver.resolve()
-    available:              -> not @matrix.get(@conf.xstart, 0)? and not @matrix.get(@conf.xstart, 1)?
+    available:              -> not @matrix.get(@conf.size.xstart, 0)? and not @matrix.get(@conf.size.xstart, 1)?
     bubble: (y, cell)       ->
-        if cell.color? then new puyo.stage.ColoredBubble(@matrix, @conf.xstart, y, cell.sprite, @conf, cell.color)
-        else new puyo.stage.Bubble(@matrix, @conf.xstart, y, cell.sprite, @conf)
+        if cell.color? then new puyo.stage.ColoredBubble(@matrix, @conf.size.xstart, y, cell.sprite, @conf, cell.color)
+        else new puyo.stage.Bubble(@matrix, @conf.size.xstart, y, cell.sprite, @conf)
 
 class puyo.stage.Bubble extends puyo.stage.Cell
     @BUBBLEMOVE: 75  # bubble move time
-    # conf: xscale, yxcale, xoffset, yoffset
     constructor: (matrix, x, y, @sprite, @conf) ->
         super(matrix, x, y)
-        @sprite.move 0, 2*@conf.yscale, 2*puyo.stage.Bubble.BUBBLEMOVE
+        @sprite.move 0, 2*@conf.size.cellHeight, 2*puyo.stage.Bubble.BUBBLEMOVE
     remove:                 -> super() ; @sprite.explode()
-    move: (dx, dy)          -> super(dx, dy) ; @sprite.move(dx*@conf.xscale, dy*@conf.yscale, puyo.stage.Bubble.BUBBLEMOVE)
-    fall: (dy)              -> super(dy) ; @sprite.fall(dy*@conf.yscale, dy*puyo.stage.Bubble.BUBBLEMOVE)
+    move: (dx, dy)          -> super(dx, dy) ; @sprite.move(dx*@conf.size.cellWidth, dy*@conf.size.cellHeight, puyo.stage.Bubble.BUBBLEMOVE)
+    fall: (dy)              -> super(dy) ; @sprite.fall(dy*@conf.size.cellHeight, dy*puyo.stage.Bubble.BUBBLEMOVE)
     match: (bubble)         -> false
     test: (dx, dy)          -> if super(dx, dy) then true else (@sprite.flash() ; false)
 
 class puyo.stage.ColoredBubble extends puyo.stage.Bubble
-    # conf: xscale, yxcale, xoffset, yoffset
     constructor: (matrix, x, y, sprite, conf, @color) -> super(matrix, x, y, sprite, conf)
     match: (bubble)         -> bubble.color is @color or not bubble.color?
 
 class puyo.stage.Gravity
-    constructor: (events, @time) ->
-        @pulsar = new puyo.game.Pulsar((()=> @down()), @time)
+    constructor: (events, @conf) ->
+        @pulsar = new puyo.game.Pulsar((()=> @down()), @conf.level.gtime)
         events.listen puyo.game.Events.KEYDOWN, ()=> @pulsar.reset()
+        events.listen puyo.game.Events.SETUP,   ()=> @pulsar.time = @conf.level.gtime
     bind: (@controller)     -> @pulsar.start()
     unbind:                 -> @controller = null ; @pulsar.stop()
     down:                   -> @controller?.keydown()

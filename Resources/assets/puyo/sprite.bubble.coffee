@@ -30,14 +30,14 @@ class puyo.sprite.Bubble extends puyo.sprite.Sprite
     # conf: width, height, hues
     constructor: (paper, @conf, @color=null) -> super(paper)
     draw: (x, y)          ->
-        @drawings.back = if @color? then new puyo.sprite.BubbleColor(@paper, @conf.width, @conf.height, @conf.hues[@color])
-        else new puyo.sprite.BubbleGrey(@paper, @conf.width, @conf.height)
+        @drawings.back = if @color? then new puyo.sprite.BubbleColor(@paper, @conf.size.bubbleWidth, @conf.size.bubbleHeight, @conf.colors.hues[@color])
+        else new puyo.sprite.BubbleGrey(@paper, @conf.size.bubbleWidth, @conf.size.bubbleHeight)
         @drawings.eye1 = new puyo.sprite.BubbleEye(@paper, 3, 5, -5)
         @drawings.eye2 = new puyo.sprite.BubbleEye(@paper, 3, 5, 5)
         super(x, y) ; @blink()
     blink:                  -> @drawings.eye1.blink() ; @drawings.eye2.blink() ; setTimeout (()=> @blink()), (Math.random() + 0.1) * 10000
     flash:                  ->
-        @drawings.flash = new puyo.sprite.BubbleFlash(@paper, @conf.width, @conf.height)
+        @drawings.flash = new puyo.sprite.BubbleFlash(@paper, @conf.size.bubbleWidth, @conf.size.bubbleHeight)
         @drawings.flash.draw(@x, @y)
         @drawings.flash.explode(350, '>')
     explode:                -> @disappear ()=> @remove()

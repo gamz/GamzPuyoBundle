@@ -7,11 +7,11 @@ class puyo.game.Score
         @events.listen puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
         @events.listen puyo.game.Events.RESOLVE,  ()=> setTimeout (()=> @combo.reset()), 500
     reset:                  -> @points.reset() ; @switcher.reset()
-    strike:                 -> @points.add @conf.strike ; setTimeout (() => @switcher.points()), 500
+    strike:                 -> @points.add @conf.score.strike ; setTimeout (() => @switcher.points()), 500
     bubbles: (groups)       -> bubbles = 0 ; bubbles += group.size() for group in groups ; bubbles
     matched: (groups)       -> @combo.add 1 ; @remove @bubbles groups ; if @combo.get() > 1 then @switcher.combo()
-    remove: (bubbles)       -> @points.add Math.round bubbles * @conf.bubble * (1 + (@combo.get() - 1) * @conf.combo)
-    resolved: (matrix)      -> (if matrix.length() is 0 then @points.add @combo.get() * @conf.clear)
+    remove: (bubbles)       -> @points.add Math.round bubbles * @conf.score.bubble * (1 + (@combo.get() - 1) * @conf.score.combo)
+    resolved: (matrix)      -> (if matrix.length() is 0 then @points.add @combo.get() * @conf.score.clear)
 
 class puyo.game.ScoreCounter
     constructor: (@container) ->
