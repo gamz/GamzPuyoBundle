@@ -8,10 +8,28 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 class GameController extends Controller
 {
     /**
-     * @Configuration\Route("/", name="index")
+     * @Configuration\Route("/", name="game_modes")
      * @Configuration\Template
      */
-    public function indexAction()
+    public function modesAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Configuration\Route("/arcade", name="game_arcade")
+     * @Configuration\Template
+     */
+    public function arcadeAction()
+    {
+        return array();
+    }
+
+    /**
+     * @Configuration\Route("/practice", name="game_practice")
+     * @Configuration\Template
+     */
+    public function practiceAction()
     {
         return array();
     }

@@ -1,0 +1,44 @@
+{% extends "GamzPuyoBundle:Game:layout.html.twig" %}
+
+{% block header %}
+    {% set menuClass = 'game' %}
+    {{ parent() }}
+{% endblock %}
+
+{% block content %}
+    <div id="modes">
+        <h2>Choose a game mode</h2>
+
+        <ul>
+
+            <li class="arcade">
+                <a>
+                    <strong>Arcade</strong>
+                    <span>Pass the levels, make a big score and enter the hall of fame.</span>
+                </a>
+            </li>
+
+            <li class="multiplayer">
+                <a>
+                    <strong>Multiplayer</strong>
+                    <span>Play against other players, attack, defend and win the match.</span>
+                </a>
+            </li>
+
+            <li class="practice">
+                <a href="{{ path('game_practice') }}">
+                    <strong>Practice</strong>
+                    <span>In this mode you can fully control game parameters and play infinitely.</span>
+                </a>
+            </li>
+
+            <li class="puzzle">
+                <a>
+                    <strong>Puzzle</strong>
+                    <span>Pick an exercise and try to resolve it. You can use editor to build your own.</span>
+                </a>
+            </li>
+
+        </ul>
+    </div>
+{% endblock %}

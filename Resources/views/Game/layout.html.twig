@@ -1,0 +1,14 @@
+{% if app.request.isXmlHttpRequest() %}
+
+    {% block content %}{% endblock %}
+
+{% else %}
+
+    {% extends "GamzPuyoBundle::layout.html.twig" %}
+
+    {% block assets %}
+        {{ parent() }}
+        {% include "GamzPuyoBundle:Game:assets.html.twig" %}
+    {% endblock %}
+
+{% endif %}

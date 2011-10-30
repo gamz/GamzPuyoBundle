@@ -1,0 +1,17 @@
+{% extends "GamzPuyoBundle:Game:layout.html.twig" %}
+
+{% block content %}
+    <div id="game">
+
+        {% include "GamzPuyoBundle:Game:stage.html.twig" %}
+
+        <ul id="status">
+            <li>Current level: <strong>4</strong></li>
+            <li>Next level in <strong>28</strong> strikes</li>
+            <li>Time out in <strong>218</strong> seconds</li>
+            <li>Next attack in <strong>63</strong> seconds</li>
+            <li>Defense: <strong>65</strong> for <strong>120</strong> secs.</li>
+        </ul>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "GamzPuyoBundle:Game:layout.html.twig" %}
+
+{% block content %}
+    <div id="game">
+
+        {% include "GamzPuyoBundle:Game:stage.html.twig" %}
+
+        <ul id="customize">
+            <li>
+                <h2>Gravity</h2>
+                <ul>
+                    <li><label><input type="radio" name="gravity" value="12000" />Almost none (12 sec)</label></li>
+                    <li><label><input type="radio" name="gravity" value="3000" checked="checked" />Slow (3 sec)</label></li>
+                    <li><label><input type="radio" name="gravity" value="1000" />Fast (1 sec)</label></li>
+                    <li><label><input type="radio" name="gravity" value="250" />Nightmare (1/4 sec)</label></li>
+                </ul>
+            </li>
+            <li>
+                <h2>Colors</h2>
+                <ul>
+                    <li><label><input type="radio" name="colors" value="2" />2 colors</label></li>
+                    <li><label><input type="radio" name="colors" value="3" checked="checked" />3 colors</label></li>
+                    <li><label><input type="radio" name="colors" value="4" />4 colors</label></li>
+                    <li><label><input type="radio" name="colors" value="5" />5 colors</label></li>
+                </ul>
+            </li>
+        </ul>
+
+        <script type="text/javascript">
+            $(function() {
+
+                paper  = Raphael('game');
+                conf   = new puyo.game.Config();
+                game   = new puyo.game.Game($('#content'), conf);
+                scheme = new puyo.game.SchemeGenerator(3);
+
+                game.draw(paper, 9, 13);
+                game.start(scheme);
+
+                $('input[name=gravity]').change(function() { conf.gravity(parseInt($(this).val()));});
+                $('input[name=colors]').change(function() { scheme.colors = parseInt($(this).val()); });
+
+            });
+        </script>
+
+    </div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<link href="http://fonts.googleapis.com/css?family=Syncopate:700" rel="stylesheet" type="text/css">
+
+{% stylesheets filter="compass" output="media/css/game.css"
+    "@GamzPuyoBundle/Resources/assets/styles/game.modes.sass"
+    "@GamzPuyoBundle/Resources/assets/styles/game.stage.sass"
+    "@GamzPuyoBundle/Resources/assets/styles/game.arcade.sass"
+    "@GamzPuyoBundle/Resources/assets/styles/game.practice.sass"
+%}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+
+<script type="text/javascript" src="/media/js/raphael.js"></script>
+
+{% javascripts filter="coffee" output="media/js/game.js"
+    "@GamzPuyoBundle/Resources/assets/puyo/game.core.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/game.main.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/game.score.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/stage.engine.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/stage.board.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/stage.provider.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/sprite.abstract.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/sprite.backs.coffee"
+    "@GamzPuyoBundle/Resources/assets/puyo/sprite.bubble.coffee"
+%}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}

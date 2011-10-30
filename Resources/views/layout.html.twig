@@ -1,19 +1,45 @@
 {% extends "::layout.html.twig" %}
 
 {% block assets %}
+
     <link href="http://fonts.googleapis.com/css?family=Marvel:700" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Rosario" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Syncopate:700" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+
+    {% stylesheets filter="compass" output="media/css/layout.css"
+        "@GamzPuyoBundle/Resources/assets/styles/layout.skeleton.sass"
+        "@GamzPuyoBundle/Resources/assets/styles/layout.header.sass"
+        "@GamzPuyoBundle/Resources/assets/styles/layout.footer.sass"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" />
+    {% endstylesheets %}
+
 {% endblock %}
 
 {% block header %}
+
+    <h1>ぷよぷよ</h1>
+
+    <ul id="menu" {% if menuClass is defined %}class="{{ menuClass }}"{% endif %} >
+        <li class="game"><a href="{{ path('game_modes') }}">New game</a></li>
+        <li class="scores"><a>Hi scores</a></li>
+        <li class="profile"><a>My profile</a></li>
+        <li class="friends"><a>My friends</a></li>
+        <li class="wish"><a>Wish box</a></li>
+    </ul>
+
 {% endblock %}
 
 {% block footer %}
+
     <p>
         Powered by
-        <a href="http://symfony.com">Symfony2</a>,
-        <a href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>,
-        <a href="http://raphaeljs.com">Raphaël</a>,
-        <a href="http://compass-style.org/">Compass</a> &
-        <a href="http://jquery.com/">jQuery</a>
+        <a target="_blank" href="http://symfony.com">Symfony2</a>,
+        <a target="_blank" href="http://jashkenas.github.com/coffee-script/">CoffeeScript</a>,
+        <a target="_blank" href="http://raphaeljs.com">Raphaël</a>,
+        <a target="_blank" href="http://compass-style.org/">Compass</a> &
+        <a target="_blank" href="http://jquery.com/">jQuery</a>
     </p>
+
 {% endblock %}
