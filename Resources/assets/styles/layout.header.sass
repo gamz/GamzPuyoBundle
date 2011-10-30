@@ -1,0 +1,65 @@
+@import "include.sass"
+
+h1
+  font-family: Arial, Helvetica, sans-serif !important
+  color: #303030
+  font-size: 92px
+  text-align: right
+  margin: 0 0 10px -20px
+  letter-spacing: -25px
+  @include single-text-shadow(#080808, 0, 0, 5px)
+  overflow: hidden
+
+selected-item
+  background: #1C1C1C
+  +linear-gradient(color-stops(#1C1C1C, #181818), bottom)
+  border-color: #242424
+
+#menu
+
+  li
+    @extend puyo-button
+    margin-bottom: 10px
+
+  a
+    display: block
+    color: #404040
+    font-family: Syncopate, sans-serif
+    font-size: 24px
+    padding: 25px 20px 20px 25px
+
+  .game a:hover
+    color: $color1
+
+  .scores a:hover
+    color: $color2
+
+  .profile a:hover
+    color: $color3
+
+  .friends a:hover
+    color: $color4
+
+  .wish a:hover
+    color: $color5
+
+  &.game .game a
+    @extend selected-item
+    color: $color1
+
+  &.scores .scores a
+    @extend selected-item
+    color: $color1
+
+  &.profile .profile a
+    @extend selected-item
+    color: $color2
+
+  &.friends .friends a
+    @extend selected-item
+    color: $color3
+
+  &.wish .wish a
+    @extend selected-item
+    color: $color4
+

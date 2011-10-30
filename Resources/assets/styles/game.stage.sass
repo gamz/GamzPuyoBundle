@@ -1,22 +1,21 @@
-@import "compass/css3"
+@import "include.sass"
 
 #game
-  width: 372px
-  margin: 0 auto
   position: relative
+  height: $boardHeight
 
 #messages
   position: absolute
-  top: 238px
+  top: $boardHeight / 2 + 36px - 50px
   left: 0
-  width: 372px
+  width: $boardWidth
   height: 100px
   font-family: Syncopate, sans-serif
 
   p
     position: absolute
     top: 0
-    width: 372px
+    width: $boardWidth
     text-align: center
     font-weight: bold
     font-size: 48px
@@ -34,16 +33,16 @@
   text-align: center
   overflow: hidden
   color: white
+  font-family: Marvel, sans-serif
 
   p
     position: absolute
     top: -60px
     left: 0
     width: 164px
-
-  .points
-    font-size: 21px
+    font-size: 26px
     letter-spacing: 1px
+    @include single-text-shadow(black, 0, 0, 5px)
 
     strong
       @include opacity(0.5)
@@ -51,29 +50,31 @@
     span
       @include opacity(0.25)
 
-  .combo
-    font-size: 21px
-    letter-spacing: 1px
-
-    strong
+    &.combo strong
       font-size: 36px
       @include opacity(0.5)
-      @include single-text-shadow(black, 0, 0, 5px)
       font-family: Syncopate, sans-serif
 
-    span
-      @include opacity(0.25)
-
-#help
+#social, #actions
   position: absolute
-  top: 60px
+  width: ($fullWidth - $boardWidth) / 2
   right: 0
-  width: 200px
-  color: #999
-  font-size: 21px
 
   li
-    margin-bottom: 1em
+    @extend puyo-button
+    margin-left: 5px
+    display: inline
+    float: right
 
-  a
-    text-decoration: underline
+    a
+      width: ($fullWidth - $boardWidth) / 4 - 9px
+      display: block
+      padding: 20px 0
+      text-align: center
+      text-transform: uppercase
+
+#social
+  bottom: 4px
+
+#actions
+  top: 3px

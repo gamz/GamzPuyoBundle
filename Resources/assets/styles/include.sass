@@ -1,0 +1,29 @@
+@import "compass"
+
+$fullWidth:   900px
+$fullHeight:  550px
+$boardWidth:  382px
+$boardHeight: 526px
+
+$color1: #E04040
+$color2: #D0D020
+$color3: #20B0D0
+$color4: #80D020
+$color5: #9070F0
+
+puyo-button
+  border: 1px solid #0C0C0C
+  @include border-radius(5px)
+  @include box-shadow(#101010 0 0 5px)
+
+  a
+    color: #585858
+    border: 1px solid #282828
+    @include border-radius(5px)
+    background: #202020
+    +linear-gradient(color-stops(#1C1C1C, #242424), bottom)
+
+    &:hover
+      background: #303030
+      border-color: #383838
+      color: #C0C0C0

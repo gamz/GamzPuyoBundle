@@ -1,0 +1,57 @@
+@import "include.sass"
+
+#modes
+  position: relative
+  height: $boardHeight
+  margin-left: 18px
+
+  h2
+    text-align: center
+    line-height: 92px
+    color: #404040
+    font-family: Syncopate, sans-serif
+    font-size: 24px
+
+  li
+    @extend puyo-button
+    position: absolute
+
+    strong
+      font-family: Syncopate, sans-serif
+      font-size: 24px
+      display: block
+      text-align: center
+      line-height: 30px
+      padding-top: 67px
+
+    span
+      display: block
+      text-align: center
+      font-size: 14px
+      letter-spacing: 1px
+      padding: 0 20px
+      line-height: 20px
+
+    a
+      display: block
+      width: 304px
+      height: 204px
+
+      &:hover strong
+        color: $color1
+
+    &.arcade
+      top: 102px
+      left: 0
+
+    &.multiplayer
+      top: 102px
+      right: 0
+
+    &.practice
+      bottom: 0
+      left: 0
+
+    &.puzzle
+      bottom: 0
+      right: 0

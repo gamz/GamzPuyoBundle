@@ -1,0 +1,39 @@
+@import "compass/reset"
+@import "include.sass"
+
+html, body
+  font-size: 12px
+  background: #181818
+  overflow: hidden
+  height: 100%
+  font-family: Rosario, sans-serif
+  cursor: default
+
+*:focus
+  outline: 0
+
+a
+  text-decoration: none
+  color: inherit
+
+header, footer, #content
+  position: absolute
+  top: 50%
+  left: 50%
+  width: 900px
+  height: $boardHeight
+  margin-top: -$fullHeight / 2
+  margin-left: -$fullWidth / 2
+
+header
+  width: ($fullWidth - $boardWidth) / 2 + 10px
+
+#content
+  width: $fullWidth - ($fullWidth - $boardWidth) / 2
+  margin-left: -191px
+
+footer
+  height: 24px
+  margin-top: $fullHeight / 2 - 24px
+  text-align: center
+  font-family: Marvel, sans-serif
