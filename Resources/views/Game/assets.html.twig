@@ -1,6 +1,6 @@
 <link href="http://fonts.googleapis.com/css?family=Syncopate:700" rel="stylesheet" type="text/css">
 
-{% stylesheets filter="compass" output="media/css/game.css"
+{% stylesheets filter="compass" output="media/puyo/game.css"
     "@GamzPuyoBundle/Resources/assets/styles/game.modes.sass"
     "@GamzPuyoBundle/Resources/assets/styles/game.stage.sass"
     "@GamzPuyoBundle/Resources/assets/styles/game.arcade.sass"
@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 
-<script type="text/javascript" src="/media/js/raphael.js"></script>
+<script type="text/javascript" src="/media/common/raphael.js"></script>
 
-{% javascripts filter="coffee" output="media/js/game.js"
+{% javascripts filter="coffee" output="media/puyo/game.js"
     "@GamzPuyoBundle/Resources/assets/puyo/game.core.coffee"
     "@GamzPuyoBundle/Resources/assets/puyo/game.main.coffee"
     "@GamzPuyoBundle/Resources/assets/puyo/game.score.coffee"
