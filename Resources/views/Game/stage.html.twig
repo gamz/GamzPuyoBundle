@@ -2,14 +2,8 @@
 <div id="messages"></div>
 
 <div id="score">
-    <p class="points">
-        <span>Points:</span>
-        <strong>0</strong>
-    </p>
-    <p class="combo">
-        <span>Combo:</span>
-        <strong>0</strong>
-    </p>
+    <p class="points"><span>Points:</span> <strong>0</strong></p>
+    <p class="combo"><span>Combo:</span> <strong>0</strong></p>
 </div>
 
 <ul id="actions">
@@ -21,3 +15,18 @@
     <li><a target="_blank" href="https://github.com/gamz/GamzPuyoBundle">Fork / issues<br/>on Github</a></li>
     <li><a target="_blank" href="http://twitter.com/#!/scryptos">Congrat me<br/>on Twitter</a></li>
 </ul>
+
+<div id="waiting">
+    <p>Press space bar when you're ready.</p>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+
+        unbind = function() { $(document).unbind('keydown', listen); };
+        listen = function(event) { if(event.keyCode == 32) { $('#waiting').remove(); game.start(); unbind(); } };
+
+        $(document).keydown(listen);
+
+    });
+</script>

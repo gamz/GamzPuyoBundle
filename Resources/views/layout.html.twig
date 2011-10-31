@@ -15,18 +15,30 @@
         <link rel="stylesheet" href="{{ asset_url }}" />
     {% endstylesheets %}
 
+    {% javascripts filter="coffee" output="media/js/layout.js"
+        "@GamzPuyoBundle/Resources/assets/scripts/layout.coffee"
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 {% endblock %}
 
 {% block header %}
 
     <h1>ぷよぷよ</h1>
 
-    <ul id="menu" {% if menuClass is defined %}class="{{ menuClass }}"{% endif %} >
-        <li class="game"><a href="{{ path('game_modes') }}">New game</a></li>
-        <li class="scores"><a>Hi scores</a></li>
-        <li class="profile"><a>My profile</a></li>
-        <li class="friends"><a>My friends</a></li>
-        <li class="wish"><a>Wish box</a></li>
+    {% macro menu_item(name, label, path, current) %}
+        <li class="{{ name }}{% if current %} current{% endif %}">
+            <a{% if path %} href="{{ path }}"{% endif %}>{{ label }}</a>
+        </li>
+    {% endmacro %}
+
+    <ul id="menu">
+        {{ _self.menu_item('game',    'New game',   path('game_modes'), currentMenu is defined and currentMenu == 'game') }}
+        {{ _self.menu_item('scores',  'Hi scores',  null, currentMenu is defined and currentMenu == 'scores') }}
+        {{ _self.menu_item('profile', 'My profile', null, currentMenu is defined and currentMenu == 'profile') }}
+        {{ _self.menu_item('events',  'My events',  null, currentMenu is defined and currentMenu == 'friends') }}
+        {{ _self.menu_item('wish',    'Wish box',   null, currentMenu is defined and currentMenu == 'wish') }}
     </ul>
 
 {% endblock %}

@@ -3,8 +3,6 @@
 {% block content %}
     <div id="game">
 
-        {% include "GamzPuyoBundle:Game:stage.html.twig" %}
-
         <ul id="customize">
             <li>
                 <h2>Gravity</h2>
@@ -29,19 +27,15 @@
         <script type="text/javascript">
             $(function() {
 
-                paper  = Raphael('game');
-                conf   = new puyo.game.Config();
-                game   = new puyo.game.Game($('#content'), conf);
-                scheme = new puyo.game.SchemeGenerator(3);
+                game  = new puyo.game.PracticeGame(Raphael('game'), $('#content'));
 
-                game.draw(paper, 9, 13);
-                game.start(scheme);
-
-                $('input[name=gravity]').change(function() { conf.gravity(parseInt($(this).val()));});
-                $('input[name=colors]').change(function() { scheme.colors = parseInt($(this).val()); });
+                $('input[name=gravity]').change(function() { game.gravity(parseInt($(this).val())); });
+                $('input[name=colors]').change(function()  { game.colors(parseInt($(this).val()));  });
 
             });
         </script>
+
+        {% include "GamzPuyoBundle:Game:stage.html.twig" %}
 
     </div>
 {% endblock %}

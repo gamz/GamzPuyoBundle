@@ -6,7 +6,7 @@
 
 #messages
   position: absolute
-  top: $boardHeight / 2 + 36px - 50px
+  top: $boardHeight / 2 + 30px - 50px
   left: 0
   width: $boardWidth
   height: 100px
@@ -61,14 +61,13 @@
   right: 0
 
   li
-    @extend puyo-button
+    @extend common-button
     margin-left: 5px
     display: inline
     float: right
 
     a
       width: ($fullWidth - $boardWidth) / 4 - 9px
-      display: block
       padding: 20px 0
       text-align: center
       text-transform: uppercase
@@ -78,3 +77,19 @@
 
 #actions
   top: 3px
+
+#waiting
+  position: absolute
+  top: $boardHeight / 2 + 30px - 36px
+  left: 50px
+  width: $boardWidth - 100px
+  background: rgba(0, 0, 0, 0.25)
+  border: 1px solid rgba(255, 255, 255, 0.25)
+  @include border-radius(5px)
+  @include single-box-shadow(#000, 0, 0, 5px)
+
+  p
+    color: rgba(255, 255, 255, 0.75)
+    line-height: 70px
+    text-align: center
+    font-size: 15px

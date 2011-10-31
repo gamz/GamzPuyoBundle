@@ -13,7 +13,7 @@
     font-size: 24px
 
   li
-    @extend puyo-button
+    @extend common-button
     position: absolute
 
     strong
@@ -33,11 +33,10 @@
       line-height: 20px
 
     a
-      display: block
       width: 304px
       height: 204px
 
-      &:hover strong
+      &[href]:hover strong
         color: $color1
 
     &.arcade
