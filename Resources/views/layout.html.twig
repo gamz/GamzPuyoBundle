@@ -34,7 +34,7 @@
     {% endmacro %}
 
     <ul id="menu">
-        {{ _self.menu_item('game',    'New game',   path('game_modes'), currentMenu is defined and currentMenu == 'game') }}
+        {{ _self.menu_item('game',    'New game',   path('puyo_game_modes'), currentMenu is defined and currentMenu == 'game') }}
         {{ _self.menu_item('scores',  'Hi scores',  null, currentMenu is defined and currentMenu == 'scores') }}
         {{ _self.menu_item('profile', 'My profile', null, currentMenu is defined and currentMenu == 'profile') }}
         {{ _self.menu_item('events',  'My events',  null, currentMenu is defined and currentMenu == 'friends') }}

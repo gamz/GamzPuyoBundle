@@ -1,12 +1,12 @@
 class puyo.game.Game
     constructor: (@container, @conf) ->
-        @events   = new puyo.game.Events()
+        @events   = new gamz.event.Dispatcher()
         @board    = new puyo.stage.Board @events, @conf
         @provider = new puyo.stage.Provider @events, @conf
         @messages = new puyo.game.Messages @container.find(@conf.jquery.messages), @events
         @score    = new puyo.game.Score @container.find(@conf.jquery.score), @events, @conf
         @conf.setup @events
-        @events.listen puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
+        @events.bind puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
     draw: (paper, x, y)         ->
         @board.draw paper, x, y + @conf.size.cellHeight * 2
         @provider.draw paper, x + @conf.size.xstart * @conf.size.cellWidth, y

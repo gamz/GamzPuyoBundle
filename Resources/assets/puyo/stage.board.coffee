@@ -1,6 +1,6 @@
 class puyo.stage.Board
     constructor: (@events, @conf) ->
-        @events.bind @
+        @events.bind puyo.game.Events.RESOLVE, ()=> @resolve()
         @matrix     = new puyo.stage.Matrix(@conf.size.columns, @conf.size.rows)
         @controller = new puyo.stage.Controller(@events)
         if @conf.level.gtime? then @gravity = new puyo.stage.Gravity(@events, @conf)
@@ -41,15 +41,15 @@ class puyo.stage.ColoredBubble extends puyo.stage.Bubble
 
 class puyo.stage.Gravity
     constructor: (events, @conf) ->
-        @pulsar = new puyo.game.Pulsar((()=> @down()), @conf.level.gtime)
-        events.listen puyo.game.Events.KEYDOWN, ()=> @pulsar.reset()
-        events.listen puyo.game.Events.SETUP,   ()=> @pulsar.time = @conf.level.gtime
+        @pulsar = new gamz.utils.Pulsar((()=> @down()), @conf.level.gtime)
+        events.bind puyo.game.Events.KEYDOWN, ()=> @pulsar.reset()
+        events.bind puyo.game.Events.SETUP,   ()=> @pulsar.time = @conf.level.gtime
     bind: (@controller)     -> @pulsar.start()
     unbind:                 -> @controller = null ; @pulsar.stop()
     down:                   -> @controller?.keydown()
 
 class puyo.stage.Controller extends puyo.stage.ControlGroup
-    constructor: (@events)  -> super() ; @events.bind @
+    constructor: (@events)  -> super() ; @events.subscribe @
     keyleft:                -> if not @move 'left'  then @events.dispatch puyo.game.Events.BLOCKED
     keyright:               -> if not @move 'right' then @events.dispatch puyo.game.Events.BLOCKED
     keyturn:                -> if not @move 'turn'  then @events.dispatch puyo.game.Events.BLOCKED

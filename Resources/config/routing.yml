@@ -1,4 +1,4 @@
-_game:
+_puyo_game:
     resource: "@GamzPuyoBundle/Controller/GameController.php"
     type:     annotation
     prefix:   /game

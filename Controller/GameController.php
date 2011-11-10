@@ -2,13 +2,12 @@
 
 namespace Gamz\PuyoBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration;
 
-class GameController extends Controller
+class GameController
 {
     /**
-     * @Configuration\Route("/", name="game_modes")
+     * @Configuration\Route("/", name="puyo_game_modes")
      * @Configuration\Template
      */
     public function modesAction()
@@ -17,7 +16,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Configuration\Route("/arcade", name="game_arcade")
+     * @Configuration\Route("/arcade", name="puyo_game_arcade")
      * @Configuration\Template
      */
     public function arcadeAction()
@@ -26,7 +25,7 @@ class GameController extends Controller
     }
 
     /**
-     * @Configuration\Route("/practice", name="game_practice")
+     * @Configuration\Route("/practice", name="puyo_game_practice")
      * @Configuration\Template
      */
     public function practiceAction()

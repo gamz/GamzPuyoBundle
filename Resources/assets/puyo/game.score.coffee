@@ -3,9 +3,9 @@ class puyo.game.Score
         @switcher = new puyo.game.ScoreSwitcher @container
         @combo    = new puyo.game.ScoreCounter @container.find '.combo strong'
         @points   = new puyo.game.ScoreCounter @container.find '.points strong'
-        @events.listen puyo.game.Events.MATCHED,  (groups)=> @matched groups
-        @events.listen puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
-        @events.listen puyo.game.Events.RESOLVE,  ()=> setTimeout (()=> @combo.reset()), 500
+        @events.bind puyo.game.Events.MATCHED,  (groups)=> @matched groups
+        @events.bind puyo.game.Events.RESOLVED, (matrix)=> @resolved matrix
+        @events.bind puyo.game.Events.RESOLVE,  ()=> setTimeout (()=> @combo.reset()), 500
     reset:                  -> @points.reset() ; @switcher.reset()
     strike:                 -> @points.add @conf.score.strike ; setTimeout (() => @switcher.points()), 500
     bubbles: (groups)       -> bubbles = 0 ; bubbles += group.size() for group in groups ; bubbles
